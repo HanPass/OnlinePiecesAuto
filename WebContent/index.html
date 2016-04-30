@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html ng-app="pieceApp">
+<head>
+<meta charset="ISO-8859-1">
+<title>Jamal Piece Auto</title>
+<script type="text/javascript" src="lib/angular.min.js"></script>
+<script type="text/javascript" src="JS/app.js"></script>
+<link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script
+	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+<body ng-controller="pieceAutoController as piecectrl">
+	<div class="page-header">
+		<h3 style="text-align: center">Pieces Auto Jamal</h3>
+	</div>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="index.html">Stock des piéces</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="index.html">Tableau du stock</a></li>
+				<li><a href="ajouterPiece.html">Ajouter une piéce</a></li>
+				<li><a href="#">Ajouter un fournisseur</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+		</div>
+	</nav>
+	<p>Nombre de piéce: {{piecectrl.listeDesPieces.length}}</p>
+
+	<div class="panel panel-default">
+		<!-- Default panel contents -->
+		<div class="panel-heading"></div>
+
+		<!-- Table -->
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Fournisseur</th>
+					<th>Quantité</th>
+					<th>Prix Unité</th>
+					<th>Numéro téléphone</th>
+				</tr>
+			</thead>
+			<tbody ng-repeat="piece in piecectrl.listeDesPieces">
+				<tr>
+					<td>{{piece.nom}}</td>
+					<td>{{piece.four}}</td>
+					<td>{{piece.qte}}</td>
+					<td>{{piece.prix | currency : " MAD "}}</td>
+					<td>{{piece.tel}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div id="LeftPanel" style="width: 800; height: 100%; float: left;">
+		<div class="ajouterPadding">
+			<h2>Ajouter une piéce</h2>
+			<form role="form" ng-submit="piecectrl.mySubmitFunc()">
+				<div class="form-group">
+					<label for="nom">Nom:</label> <input type="text"
+						class="form-control" id="nom" placeholder="Entrer Nom"
+						ng-model="piecectrl.nomModel" required>
+				</div>
+				<!-- <div class="form-group">
+				<label for="four">Fournisseur:</label> 
+				<input type="text" class="form-control" id="four" placeholder="Entrer Fournisseur" ng-model = "piecectrl.fourModel" >
+			</div>-->
+				<label for="singleSelect"> Choisir Fournisseur: </label> <select
+					name="singleSelect" ng-model="piecectrl.data.singleSelect">
+					<option value="">---Please select---</option>
+					<!-- not selected / blank option -->
+					<option value="Atlanta">Atlanta</option>
+					<option value="Pinkie">Pinkie</option>
+					<option value="Malabata">Malabata</option>
+				</select>
+
+				<div class="form-group">
+					<label for="qte">Quantité:</label> <input type="text"
+						class="form-control" id="qte" placeholder="Entrer Quantité"
+						ng-model="piecectrl.qteModel">
+				</div>
+
+				<div class="form-group">
+					<label for="prix">Prix unité:</label> <input type="text"
+						class="form-control" id="prix" placeholder="Entrer Prix unité"
+						ng-model="piecectrl.prixModel">
+				</div>
+
+				<div class="form-group">
+					<label for="tel">Numéro téléphone:</label> <input type="text"
+						class="form-control" id="tel"
+						placeholder="Entrer Numéro Téléphone"
+						ng-model="piecectrl.telModel">
+				</div>
+				<div class="checkbox">
+					<label><input type="checkbox"> Remember me</label>
+				</div>
+				<button type="submit" class="btn btn-primary">Ajouter</button>
+			</form>
+		</div>
+	</div>
+
+	<div id="RightPanel"
+		style="width: 200; height: 100%; text-align: left; vertical-align: bottom; float: right;">
+		<h2>Piéce vendu</h2>
+		<form role="form" ng-submit="piecectrl.vendreSubmitFunc()">
+			<label for="pieceSelect"> Choisir Piéce: </label> <select
+				name="pieceSelect" ng-model="piecectrl.data.pieceSelect">
+				<option ng-repeat="piece in piecectrl.listeDesPieces"
+					value="{{piece.nom}}">{{piece.nom}}</option>
+			</select>
+			<div class="form-group">
+				<label for="vendu">Nombre vendu:</label> <input type="text"
+					class="form-control" id="vendu" placeholder="Entrer Nombre vendu"
+					ng-model="piecectrl.venduModel">
+			</div>
+			<button type="submit" class="btn btn-primary">Enlever</button>
+		</form>
+		
+		<h2>Ajouter Qte Piéce Existante</h2>
+		<form role="form" ng-submit="piecectrl.ajouterQteSubmitFunc()">
+			<label for="pieceSelectAcheter"> Choisir Piéce: </label> 
+			<select
+				name="pieceSelectAcheter" ng-model="piecectrl.data.pieceSelectAcheter">
+				<option ng-repeat="piece in piecectrl.listeDesPieces"
+					value="{{piece.nom}}">{{piece.nom}}</option>
+			</select>
+			<div class="form-group">
+				<label for="acheter">Quantité achetée:</label> 
+				<input type="text"
+					class="form-control" id="acheter" placeholder="Entrer quantité achetée"
+					ng-model="piecectrl.acheterModel">
+			</div>
+			<button type="submit" class="btn btn-primary">Acheter</button>
+		</form>
+	</div>
+</body>
+</html>
